@@ -1,16 +1,35 @@
+#!/usr/bin/env python
+# -*- coding:UTF-8 -*-
+#
+# @AUTHOR: Rabbir
+# @FILE: /root/Github/steampy/examples/storehouse.py
+# @DATE: 2021/01/27 Wed
+# @TIME: 13:48:18
+#
+# @DESCRIPTION: todo...
+
+
 import time
 from steampy.client import SteamClient, TradeOfferState
 
-# Set API key
+
+# API KEY
 api_key = ''
-# Set path to SteamGuard file
+# Steam 手机令牌路径
 steamguard_path = ''
-# Steam username
+# Steam 用户名
 username = ''
-# Steam password
+# Steam 密码
 password = ''
 
 
+"""
+@description:
+-------
+@param:
+-------
+@return:
+"""
 def main():
     print('This is the donation bot accepting items for free.')
     if not are_credentials_filled():
@@ -43,5 +62,5 @@ def is_donation(offer: dict) -> bool:
 
 
 if __name__ == "__main__":
-    # execute only if run as a script
+    # 以脚本形式运行
     main()
