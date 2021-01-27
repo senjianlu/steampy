@@ -1,11 +1,20 @@
-import decimal
+#!/usr/bin/env python
+# -*- coding:UTF-8 -*-
+#
+# @AUTHOR: Rabbir
+# @FILE: /root/Github/steampy/steampy/client.py
+# @DATE: 2021/01/27 Wed
+# @TIME: 15:00:37
+#
+# @DESCRIPTION: Client 类和方法
+
 
 import bs4
+import json
+import decimal
+import requests
 import urllib.parse as urlparse
 from typing import List, Union
-
-import json
-import requests
 from steampy import guard
 from steampy.chat import SteamChat
 from steampy.confirmation import ConfirmationExecutor
@@ -28,24 +37,57 @@ def login_required(func):
     return func_wrapper
 
 
+"""
+@description: Steam Client 类
+-------
+@param:
+-------
+@return:
+"""
 class SteamClient:
-    def __init__(self, api_key: str, username: str = None, password: str = None, steam_guard:str = None) -> None:
+
+    """
+    @description: 初始化方法
+    -------
+    @param:
+    -------
+    @return:
+    """
+    def __init__(self,
+                 api_key: str,
+                 username: str=None,
+                 password: str=None,
+                 steam_guard:str=None) -> None:
         self._api_key = api_key
         self._session = requests.Session()
         self.steam_guard = steam_guard
+        # 是否执行过登录
         self.was_login_executed = False
         self.username = username
         self._password = password
         self.market = SteamMarket(self._session)
         self.chat = SteamChat(self._session)
 
+    """
+    @description: 登录
+    -------
+    @param:
+    -------
+    @return:
+    """
     def login(self, username: str, password: str, steam_guard: str) -> None:
+        # 读取 Steam 手机令牌登录码
         self.steam_guard = guard.load_steam_guard(steam_guard)
         self.username = username
         self._password = password
-        LoginExecutor(username, password, self.steam_guard['shared_secret'], self._session).login()
+        LoginExecutor(username,
+                      password,
+                      self.steam_guard['shared_secret'],
+                      self._session).login()
         self.was_login_executed = True
-        self.market._set_login_executed(self.steam_guard, self._get_session_id())
+        # Steam 手机令牌地址和 Steam 社区市场会话 Session
+        self.market._set_login_executed(self.steam_guard,
+                                        self._get_session_id())
 
     @login_required
     def logout(self) -> None:
