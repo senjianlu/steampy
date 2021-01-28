@@ -10,3 +10,5 @@ steampy.egg-info
 dist
 deploy.sh
 secrets
+examples/bot.txt
+examples/bot_info.py

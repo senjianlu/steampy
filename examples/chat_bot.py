@@ -14,16 +14,17 @@ import time
 import sys
 sys.path.append("..")
 from steampy.client import SteamClient
+from examples import bot_info
 
 
 # API KEY
-api_key = ''
+api_key = bot_info.get_api_key()
 # Steam 手机令牌路径
-steamguard_path = ''
+steamguard_path = bot_info.get_steamguard_path()
 # Steam 用户名
-username = ''
+username = bot_info.get_username()
 # Steam 密码
-password = ''
+password = bot_info.get_password()
 
 
 """
@@ -47,14 +48,15 @@ def are_credentials_filled() -> bool:
 @return:
 """
 def main():
-    print('Steam 聊天机器人启动！')
+    print('Steam 聊天机器人启动...')
     if not are_credentials_filled():
         print('你需要按要求填写所有信息！')
-        print('Steam 聊天机器人结束。'')
+        print('Steam 聊天机器人结束。')
         return
     client = SteamClient(api_key)
     client.login(username, password, steamguard_path)
     print('机器人登录成功！已设定为每 10 秒轮询一次聊天列表。')
+    client.chat._login()
     while True:
         time.sleep(10)
         messages = client.chat.fetch_messages()['received']

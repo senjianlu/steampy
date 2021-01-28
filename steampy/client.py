@@ -18,19 +18,29 @@ from typing import List, Union
 from steampy import guard
 from steampy.chat import SteamChat
 from steampy.confirmation import ConfirmationExecutor
-from steampy.exceptions import SevenDaysHoldException, LoginRequired, ApiException
+from steampy.exceptions import SevenDaysHoldException, \
+    LoginRequired, ApiException
 from steampy.login import LoginExecutor, InvalidCredentials
 from steampy.market import SteamMarket
 from steampy.models import Asset, TradeOfferState, SteamUrl, GameOptions
-from steampy.utils import text_between, texts_between, merge_items_with_descriptions_from_inventory, \
-    steam_id_to_account_id, merge_items_with_descriptions_from_offers, get_description_key, \
-    merge_items_with_descriptions_from_offer, account_id_to_steam_id, get_key_value_from_url, parse_price
+from steampy.utils import text_between, texts_between, \
+    merge_items_with_descriptions_from_inventory, steam_id_to_account_id, \
+    merge_items_with_descriptions_from_offers, get_description_key, \
+    merge_items_with_descriptions_from_offer, account_id_to_steam_id, \
+    get_key_value_from_url, parse_price
 
 
+"""
+@description: 在方法执行前先确定是否登录
+-------
+@param:
+-------
+@return:
+"""
 def login_required(func):
     def func_wrapper(self, *args, **kwargs):
         if not self.was_login_executed:
-            raise LoginRequired('Use login method first')
+            raise LoginRequired('请先登录！')
         else:
             return func(self, *args, **kwargs)
 

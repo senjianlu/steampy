@@ -46,6 +46,7 @@ class SteamChat():
         response = self._session.get(SteamUrl.COMMUNITY_URL+"/chat")
         response.raise_for_status()
         response_soup = bs4.BeautifulSoup(response.text, "html.parser")
+        print(response_soup)
         elems = response_soup.select("body > div > div > div > script[type]")
         token_pattern = re.compile(r"\"(\w{32})\"")
         access_token = token_pattern.search(str(elems[0])).group(1)
@@ -62,6 +63,7 @@ class SteamChat():
     @return:
     """
     def _api_call(self, endpoint, params, timeout_ignore=False):
+        print(endpoint, params)
         response = self._session.post(endpoint, data=params)
         response.raise_for_status()
         response_status = response.json().get("error")

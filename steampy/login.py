@@ -204,6 +204,7 @@ class LoginExecutor:
             # 获取令牌码
             self.one_time_code = guard.generate_one_time_code(
                 self.shared_secret)
+            print("获取令牌码：" + str(self.one_time_code))
             # 再执行一次从获取 RSA 公钥和时间开始的登录
             return self._send_login_request()
         return login_response
