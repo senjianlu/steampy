@@ -6,7 +6,7 @@
 # @DATE: 2021/01/27 Wed
 # @TIME: 16:00:58
 #
-# @DESCRIPTION: Steam Chat 类和方法
+# @DESCRIPTION: Steam Chat 类和方法（Steam 聊天已改为采用 WebSocket 而废弃）
 
 
 import bs4
@@ -47,9 +47,10 @@ class SteamChat():
         response.raise_for_status()
         response_soup = bs4.BeautifulSoup(response.text, "html.parser")
         print(response_soup)
-        elems = response_soup.select("body > div > div > div > script[type]")
-        token_pattern = re.compile(r"\"(\w{32})\"")
+        elems = response_soup.select("body > div")
+        token_pattern = re.compile(r"\"token\":\"(.*)\",\"token_use_id\"")
         access_token = token_pattern.search(str(elems[0])).group(1)
+        print(access_token)
         if access_token is None:
             raise Exception("获取 Steam 聊天 access_token 失败！")
         else:
@@ -65,6 +66,7 @@ class SteamChat():
     def _api_call(self, endpoint, params, timeout_ignore=False):
         print(endpoint, params)
         response = self._session.post(endpoint, data=params)
+        print(response.text)
         response.raise_for_status()
         response_status = response.json().get("error")
         if timeout_ignore and response_status == "Timeout":

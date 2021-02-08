@@ -6,7 +6,7 @@
 # @DATE: 2021/01/27 Wed
 # @TIME: 13:35:51
 #
-# @DESCRIPTION: todo...
+# @DESCRIPTION: Steam Login 和 Chat 类测试（Steam 聊天已改为采用 WebSocket 而废弃）
 
 
 import time
