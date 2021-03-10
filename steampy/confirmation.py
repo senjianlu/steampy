@@ -172,7 +172,9 @@ class ConfirmationExecutor:
         # 获取
         params = self._create_confirmation_params(tag)
         # 请求头
-        headers = {"X-Requested-With": "com.valvesoftware.android.steam.community"}
+        headers = {
+            "X-Requested-With": "com.valvesoftware.android.steam.community"
+        }
         response = self._session.get(self.CONF_URL + "/conf",
                                      params=params,
                                      headers=headers)
@@ -189,7 +191,8 @@ class ConfirmationExecutor:
     -------
     @return:
     """
-    def _fetch_confirmation_details_page(self, confirmation: Confirmation) -> str:
+    def _fetch_confirmation_details_page(self,
+                                         confirmation: Confirmation) -> str:
         tag = "details" + confirmation.id
         params = self._create_confirmation_params(tag)
         response = self._session.get(self.CONF_URL \
